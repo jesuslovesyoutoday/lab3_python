@@ -4,9 +4,8 @@ import matplotlib.animation as animation
 
 def data_count(i, x, A, data):
 	DATA = [np.array(data, dtype = np.float64)]
-	A = np.array(A, dtype = np.float64)
 	for j in range(i):
-		j+=1
+		j += 1
 		tmp = np.array(DATA[j - 1] - 0.5 * A @ (DATA[j - 1]))
 		DATA.append(tmp)
 	return [x, DATA[i]]
@@ -31,23 +30,12 @@ ax.grid()
  
 with open("start.dat") as f:
 		data = f.read().split('\n')
-A = []
-for i in range(len(data)):
-	string = []
-	for j in range(len(data)):
-		tmp = i - 1;
-		if tmp < 0:
-			tmp = len(data) - 1
-		if (i == j):
-			string.append(1)
-		elif (j == tmp):
-			string.append(-1)
-		else:
-			string.append(0)
-	A.append(string)
+n = len(data)
+A = np.diag(np.full(n, 1)) - np.eye(n, k = -1)
+A[0][len(A[0]) - 1] = -1
 x = np.linspace(0, 50, len(data))
-A = np.array(A, dtype = np.float64)
+print(A)
 	
-anim = animation.FuncAnimation(fig, animate, frames=256, init_func=init, interval=5, blit = True, fargs = [x, A, data])
-anim.save('a.gif')
-#plt.show()
+anim = animation.FuncAnimation(fig, animate, frames=256, init_func=init, interval=20, blit = True, fargs = [x, A, data])
+#anim.save('a.gif')
+plt.show()
