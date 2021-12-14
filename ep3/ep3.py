@@ -28,8 +28,9 @@ ax.set_xlim(0, 50)
 ax.set_ylim(0, 10)
 ax.grid()
  
-with open("start.dat") as f:
-		data = f.read().split('\n')
+"""with open("start.dat") as f:
+		data = f.read().split('\n')"""
+data = np.loadtxt("start.dat")
 n = len(data)
 A = np.diag(np.full(n, 1)) - np.eye(n, k = -1)
 A[0][len(A[0]) - 1] = -1
