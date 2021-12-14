@@ -2,12 +2,15 @@ import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
 
-def data_count(i, x, A, data):
-	DATA = [np.array(data, dtype = np.float64)]
-	for j in range(i):
-		j += 1
-		tmp = np.array(DATA[j - 1] - 0.5 * A @ (DATA[j - 1]))
-		DATA.append(tmp)
+def data0_count(x, A, data):
+    DATA = [np.array(data, dtype = np.float64)]
+    for i in range(255):
+        i  += 1
+        tmp = np.array(DATA[i - 1] - 0.5 * A @ (DATA[i - 1]))
+        DATA.append(tmp)
+    return DATA 
+
+def data_count(i, x, A, DATA):
 	return [x, DATA[i]]
 
 def init():
@@ -36,7 +39,9 @@ A = np.diag(np.full(n, 1)) - np.eye(n, k = -1)
 A[0][len(A[0]) - 1] = -1
 x = np.linspace(0, 50, len(data))
 print(A)
+
+DATA = data0_count(x, A, data)
 	
-anim = animation.FuncAnimation(fig, animate, frames=256, init_func=init, interval=20, blit = True, fargs = [x, A, data])
+anim = animation.FuncAnimation(fig, animate, frames=256, init_func=init, interval=20, blit = True, fargs = [x, A, DATA])
 #anim.save('a.gif')
 plt.show()
